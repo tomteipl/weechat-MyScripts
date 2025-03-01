@@ -40,6 +40,8 @@ weechat.register(SCRIPT_NAME, SCRIPT_AUTHOR, SCRIPT_VERSION, SCRIPT_LICENSE, SCR
 #   Guides
 help = """
     Usage:\n
+
+    IMPORTANT: Commands are sent on client start only once !
     /autocommands add <command> - adds command to the list. You can use spaces and special signs.
     /autocommands del <number/string> - deletes command from the list. You can use /autocommands list to see the numbers or tap TAB for auto completion.
     /autocommands list - shows the list of commands with index.
@@ -141,7 +143,7 @@ def commands_cb(data, buffer, args):
 # Commands completion when using <del>
 def hook_completion_cb(data, completion, buffer, completion_item):
     for command in commands:
-        weechat.hook_completion_list_add(completion_item, command, 0, weechat.WEECHAT_LIST_POS_SORT)
+        weechat.completion_list_add(completion_item, command, 0, weechat.WEECHAT_LIST_POS_SORT)
     return weechat.WEECHAT_RC_OK
 
 
