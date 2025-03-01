@@ -65,7 +65,7 @@ def save_commands():
 def add_command(data, buffer, args):
     commands.append(args)
     save_commands()
-    weechat.prnt(buffer, f"Command '{args}' added!")
+    weechat.prnt("", f"Command '{args}' added!")
     return weechat.WEECHAT_RC_OK
 
 def send_auto_commands(data, buffer):
@@ -78,13 +78,13 @@ def send_auto_commands(data, buffer):
 # [ ---COMMANDS--- ]
 def commands_cb(data, buffer, args):
     if args.startswith("list"):
-        weechat.prnt(buffer, "Current commands: \n")
+        weechat.prnt("", "Current commands: \n")
         for i, command in enumerate(commands):
-            weechat.prnt(buffer, f"{i + 1}. {command}")
+            weechat.prnt("", f"{i + 1}. {command}")
         return weechat.WEECHAT_RC_OK
 
     elif args.startswith("add"):
-        add_command(data, buffer, args[len("add "):])
+        add_command(data, "", args[len("add "):])
         return weechat.WEECHAT_RC_OK
 
     elif args.startswith("del"):
@@ -97,45 +97,45 @@ def commands_cb(data, buffer, args):
                 if 0 <= index < len(commands):
                     del_command = commands.pop(index)
                     save_commands()
-                    weechat.prnt(buffer, f"Command '{del_command}' deleted!")
+                    weechat.prnt("", f"Command '{del_command}' deleted!")
                     return weechat.WEECHAT_RC_OK
 
                 else:
-                    weechat.prnt(buffer, "Invalid command number!")
+                    weechat.prnt("", "Invalid command number!")
                     return weechat.WEECHAT_RC_OK
 
             elif arg_value in commands:          # delete command by string, you can use autocomplete (example: /autocommands del /join #channel)
                 commands.remove(arg_value)
                 save_commands()
-                weechat.prnt(buffer, f"Command '{arg_value}' deleted!")
+                weechat.prnt("", f"Command '{arg_value}' deleted!")
                 return weechat.WEECHAT_RC_OK
             
             else:
-                weechat.prnt(buffer, "Invalid command number or string!")
+                weechat.prnt("", "Invalid command number or string!")
                 return weechat.WEECHAT_RC_OK
 
         except (ValueError, IndexError):
-                weechat.prnt(buffer, "Invalid command number!")
+                weechat.prnt("", "Invalid command number!")
                 return weechat.WEECHAT_RC_OK
 
     elif args.startswith("time"):           # set timer for hook
         try:
             new_time = int(args.split()[1])
             weechat.config_set_plugin("timer", str(new_time))
-            weechat.prnt(buffer, f"Timer set to {new_time} ms!")
+            weechat.prnt("", f"Timer set to {new_time} ms!")
 
         except (ValueError, IndexError):
-            weechat.prnt(buffer, "Invalid time value! /autocommands time <miliseconds>")
+            weechat.prnt("", "Invalid time value! /autocommands time <miliseconds>")
 
         return weechat.WEECHAT_RC_OK
 
     elif args.startswith("clear"):
         commands.clear()
-        weechat.prnt(buffer, "Commands cleared!")
+        weechat.prnt("", "Commands cleared!")
         return weechat.WEECHAT_RC_OK
 
     else:
-        weechat.prnt(buffer, f"{help}")
+        weechat.prnt("", f"{help}")
         return weechat.WEECHAT_RC_OK
 
 
