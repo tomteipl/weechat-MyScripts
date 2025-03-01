@@ -14,6 +14,7 @@
 #
 #
 #[Change Log]
+# 0.4   : Removed buffers sending text to channels.
 #
 # 0.3   : Implemented the hook_completion_cb to provide autocompletion for stored commands.
 #       : Added Guides.
@@ -30,7 +31,7 @@ import weechat
 
 SCRIPT_NAME = "auto_commands"
 SCRIPT_AUTHOR = "Tomteipl"
-SCRIPT_VERSION = "0.3"
+SCRIPT_VERSION = "0.4"
 SCRIPT_LICENSE = "GPL3"
 SCRIPT_DESC = "Send auto commands on start"
 
@@ -39,7 +40,7 @@ weechat.register(SCRIPT_NAME, SCRIPT_AUTHOR, SCRIPT_VERSION, SCRIPT_LICENSE, SCR
 
 #   Guides
 help = """
-    Usage:\n
+    Usage:
 
     IMPORTANT: Commands are sent on client start only once !
     /autocommands add <command> - adds command to the list. You can use spaces and special signs.
@@ -82,11 +83,11 @@ def commands_cb(data, buffer, args):
         for i, command in enumerate(commands):
             weechat.prnt("", f"{i + 1}. {command}")
         return weechat.WEECHAT_RC_OK
-
+# ---------------------------------------------------
     elif args.startswith("add"):
         add_command(data, "", args[len("add "):])
         return weechat.WEECHAT_RC_OK
-
+# ---------------------------------------------------
     elif args.startswith("del"):
         try:
             arg_value = " ".join(args.split()[1:])
@@ -109,7 +110,7 @@ def commands_cb(data, buffer, args):
                 save_commands()
                 weechat.prnt("", f"Command '{arg_value}' deleted!")
                 return weechat.WEECHAT_RC_OK
-            
+
             else:
                 weechat.prnt("", "Invalid command number or string!")
                 return weechat.WEECHAT_RC_OK
@@ -117,7 +118,7 @@ def commands_cb(data, buffer, args):
         except (ValueError, IndexError):
                 weechat.prnt("", "Invalid command number!")
                 return weechat.WEECHAT_RC_OK
-
+# ---------------------------------------------------
     elif args.startswith("time"):           # set timer for hook
         try:
             new_time = int(args.split()[1])
@@ -128,12 +129,12 @@ def commands_cb(data, buffer, args):
             weechat.prnt("", "Invalid time value! /autocommands time <miliseconds>")
 
         return weechat.WEECHAT_RC_OK
-
+# ---------------------------------------------------
     elif args.startswith("clear"):
         commands.clear()
         weechat.prnt("", "Commands cleared!")
         return weechat.WEECHAT_RC_OK
-
+# ---------------------------------------------------
     else:
         weechat.prnt("", f"{help}")
         return weechat.WEECHAT_RC_OK
