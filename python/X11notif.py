@@ -30,7 +30,7 @@ SCRIPT_DESC = "Sends notifications to your desktop when you are mentioned in a c
 weechat.register(SCRIPT_NAME, SCRIPT_AUTHOR, SCRIPT_VERSION, SCRIPT_LICENSE, SCRIPT_DESC, "", "")
 
 help = """
-    SmartNotif will work if:
+    X11Notif will work if:
 
         * You are using X11
         * You have /notify-send/ that comes with /libnotify/
@@ -74,7 +74,7 @@ weechat.hook_command(
 weechat.hook_print("", "", "", 1, "smart_notif", "")
 
 if not check_libnotify():
-    weechat.prnt("", "You don't have notify-send installed. SmartNotif will not work.")
+    weechat.prnt("", "You don't have notify-send installed. X11Notif will not work.")
     weechat.prnt("", "Please install libnotify and try again.")
     weechat.prnt("", "Exiting...")
     weechat.command("", "/script unload X11notif")
