@@ -63,7 +63,7 @@ def commands_cb(data, buffer, args):
 
 # Hooks
 weechat.hook_command(
-    "smartnotif",
+    "xnotif",
     "Sends notifications to your desktop when you are mentioned in a channel",
     "",
     "",
