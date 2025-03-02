@@ -8,7 +8,7 @@
 * ***auto_commands.py*** - you can set commands to be executed
 automatically on client startup.
 
-## X11notify.py usage
+## X11notif.py usage
 
 Type `/xnotif help` to see help in client.
 X11notify.py requires `libnotify` to work. Most **DE** has it installed by default.
