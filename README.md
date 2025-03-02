@@ -7,6 +7,7 @@
 
 ## X11notify.py usage
 
+Type `/xnotif help` to see help in client.
 X11notify.py requires `libnotify` to work. Most **DE** has it installed by default.
 It works out of the box, so all you need to do is to copy it to the **Weechat** scripts directory and load it with `/script load X11notify.py`.
 Or `/script load PATH/TO/SCRIPT`.
@@ -18,5 +19,6 @@ Or `/script load PATH/TO/SCRIPT`.
 3. **/autocommands list** - shows the list of commands with index.
 4. **/autocommands clear** - clears the list of commands.
 5. **/autocommands time <miliseconds>** - 1sec = 1000ms, sets the timer for hook in miliseconds. Default value 10000ms = 10 sec.
+6. /autocommands - Shows guides.
 
 *You can achieve similar effect by using `weechat.startup.command_after_plugins` and `weechat.startup.command_before_plugins`, that are built in **Weechat**.*
