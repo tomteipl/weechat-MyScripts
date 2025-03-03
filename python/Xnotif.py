@@ -110,14 +110,10 @@ weechat.hook_command(
 )
 
 system_type = check_system()
-if system_type == "macos":
-    weechat.hook_print("", "", "", 1, "mac_notif", "")
+if system_type == "macos" or "linux":
+    weechat.hook_print("", "", "", 1, "get_notif", "")
 
-elif system_type == "linux":
-    if check_libnotify():
-        weechat.hook_print("", "", "", 1, "linux_notif", "")
-
-    else:
-        weechat.prnt("", "You don't have notify-send installed. Notifications won't work.")
-        weechat.command("", "/script unload Macnotif")
+else:
+    weechat.prnt("", "Wrong OS. Notifications won't work.")
+    weechat.command("", "/script unload Xnotif")
 

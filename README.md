@@ -14,7 +14,7 @@ automatically on client startup.
 ## Xnotify.py usage
 
 Type `/xnotif help` to see help in client.
-On Linux Xnotify.py requires `libnotify` to work.
+On Linux Xnotif.py requires `libnotify` to work.
 Most **DE** has it installed by default.  
 On MacOS it doesn't require any additional software.
 It works out of the box, so all you need to do is to copy it to
