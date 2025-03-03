@@ -20,7 +20,7 @@ import weechat
 import shutil
 
 
-SCRIPT_NAME = "X11notif"
+SCRIPT_NAME = "x11notif"
 SCRIPT_AUTHOR = "Tomteipl"
 SCRIPT_VERSION = "1.0"
 SCRIPT_LICENSE = "GPL3"
@@ -30,7 +30,7 @@ SCRIPT_DESC = "Sends notifications to your desktop when you are mentioned in a c
 weechat.register(SCRIPT_NAME, SCRIPT_AUTHOR, SCRIPT_VERSION, SCRIPT_LICENSE, SCRIPT_DESC, "", "")
 
 help = """
-    X11Notif will work if:
+    x11Notif will work if:
 
         * You are using X11
         * You have /notify-send/ that comes with /libnotify/

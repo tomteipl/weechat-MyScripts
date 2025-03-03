@@ -24,7 +24,7 @@ import subprocess
 import platform
 import shutil
 
-SCRIPT_NAME = "Xnotif"
+SCRIPT_NAME = "xnotif"
 SCRIPT_AUTHOR = "Tomteipl"
 SCRIPT_VERSION = "1.1"
 SCRIPT_LICENSE = "GPL3"
@@ -33,7 +33,7 @@ SCRIPT_DESC = "Sends notifications to your desktop when you are mentioned in a c
 weechat.register(SCRIPT_NAME, SCRIPT_AUTHOR, SCRIPT_VERSION, SCRIPT_LICENSE, SCRIPT_DESC, "", "")
 
 help = """
-        Xnotif sends desktop notifications when you are pinged on a channels or message is highlighted.
+        xnotif sends desktop notifications when you are pinged on a channels or message is highlighted.
         Script works on Linux distros with desktop notifications (libnotify)
         and MacOS (with sound).
 

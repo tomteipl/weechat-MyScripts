@@ -2,16 +2,16 @@
 
 **Current scripts:**
 
-* ***Xnotif.py*** - sends a notification to the MacOS or X11 desktop using
-`notify-send` when a highlighted message is received.
+* ***xnotif.py*** - sends a notification to the MacOS or X11 desktop using
+`libnotify` when a highlighted message is received.
 
-* ***X11notif.py*** - does the same as `xnotif.py` but its only for linux DE.
+* ***x11notif.py*** - does the same as `xnotif.py` but its only for linux DE.
 It was made eariler and merged with `xnotif.py` to make it more universal.
 
 * ***auto_commands.py*** - you can set commands to be executed
 automatically on client startup.
 
-## Xnotify.py usage
+## xnotif.py usage
 
 Type `/xnotif help` to see help in client.
 On Linux Xnotif.py requires `libnotify` to work.
