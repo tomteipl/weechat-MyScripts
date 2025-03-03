@@ -32,7 +32,7 @@ weechat.register(SCRIPT_NAME, SCRIPT_AUTHOR, SCRIPT_VERSION, SCRIPT_LICENSE, SCR
 help = """
     x11Notif will work if:
 
-        * You are using X11
+        * You are using x11
         * You have /notify-send/ that comes with /libnotify/
         * You are running notification daemon for example /GNOME/KDE's/mako/dunst/ etc.
 
@@ -74,8 +74,8 @@ weechat.hook_command(
 weechat.hook_print("", "", "", 1, "smart_notif", "")
 
 if not check_libnotify():
-    weechat.prnt("", "You don't have notify-send installed. X11Notif will not work.")
+    weechat.prnt("", "You don't have notify-send installed. x11Notif will not work.")
     weechat.prnt("", "Please install libnotify and try again.")
     weechat.prnt("", "Exiting...")
-    weechat.command("", "/script unload X11notif")
+    weechat.command("", "/script unload x11notif")
     exit(1)

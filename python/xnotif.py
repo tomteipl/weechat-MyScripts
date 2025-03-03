@@ -14,9 +14,9 @@
 #
 #
 #[Change Log]
-# 1.1   : Merged Macnotif.py and X11notif.py into one
+# 1.1   : Merged Macnotif.py and x11notif.py into one
 #       : Added system checks to get what OS is running
-#       : Changed name to Xnotif
+#       : Changed name to xnotif
 # 1.0   : Initial release
 
 import weechat
@@ -45,11 +45,11 @@ help = """
 def check_system():
     os_name = platform.system()
     if os_name == "Darwin":
-        weechat.prnt("", "MacOS detected")
+        weechat.prnt("", "xnotif: MacOS detected")
         return "macos"
 
     elif os_name == "Linux":
-        weechat.prnt("", "Linux detected")
+        weechat.prnt("", "xnotif: Linux detected")
         return "linux"
 
     else:
@@ -114,6 +114,6 @@ if system_type == "macos" or "linux":
     weechat.hook_print("", "", "", 1, "get_notif", "")
 
 else:
-    weechat.prnt("", "Wrong OS. Notifications won't work.")
-    weechat.command("", "/script unload Xnotif")
+    weechat.prnt("", "xnotif: Wrong OS. Notifications won't work.")
+    weechat.command("", "/script unload xnotif")
 
