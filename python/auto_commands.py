@@ -132,6 +132,7 @@ def commands_cb(data, buffer, args):
 # ---------------------------------------------------
     elif args.startswith("clear"):
         commands.clear()
+        save_commands()
         weechat.prnt("", "Commands cleared!")
         return weechat.WEECHAT_RC_OK
 # ---------------------------------------------------
