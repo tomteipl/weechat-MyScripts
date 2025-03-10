@@ -38,5 +38,9 @@ in miliseconds. Default value 10000ms = 10 sec.
 
 6. **/autocommands** - Shows guides.
 
+7. **/autocommands suspend/unsuspend <number>** - suspends or unsuspends the command.
+It will not be executed until you unsuspend it.
+Use numbers, not words to select these commands.
+
 *You can achieve similar effect by using `weechat.startup.command_after_plugins`
 and `weechat.startup.command_before_plugins`, that are built in **Weechat**.*
