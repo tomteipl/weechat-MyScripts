@@ -14,6 +14,7 @@
 #
 #
 #[Change Log]
+# 0.5   : Added suspend/unsuspend function.
 # 0.4   : Removed buffers sending text to channels.
 #
 # 0.3   : Implemented the hook_completion_cb to provide autocompletion for stored commands.
@@ -31,7 +32,7 @@ import weechat
 
 SCRIPT_NAME = "auto_commands"
 SCRIPT_AUTHOR = "Tomteipl"
-SCRIPT_VERSION = "0.4"
+SCRIPT_VERSION = "0.5"
 SCRIPT_LICENSE = "GPL3"
 SCRIPT_DESC = "Send auto commands on start"
 
@@ -47,6 +48,7 @@ help = """
     /autocommands del <number/string> - deletes command from the list. You can use /autocommands list to see the numbers or tap TAB for auto completion.
     /autocommands list - shows the list of commands with index.
     /autocommands clear - clears the list of commands.
+    /autocommands suspend <number> - suspends selected commands. The command will not be exectuted on start.
     /autocommands time <miliseconds> - 1sec = 1000ms, sets the timer for hook in miliseconds. Default value 10000ms = 10 sec.
     """
 
@@ -54,13 +56,23 @@ help = """
 
 commands = []   # Commands are stored here
 
+suspends = []    # Suspended commands are stored here
+
 def load_commands():
     global commands
+    global suspends
+
+    # commands
     saved_commands = weechat.config_get_plugin("commands")
     commands = saved_commands.split(",") if saved_commands else []
 
+    # suspends
+    saved_suspends = weechat.config_get_plugin("suspends")
+    suspends = saved_suspends.split(",") if saved_suspends else []
+
 def save_commands():
     weechat.config_set_plugin("commands", ",".join(commands))
+    weechat.config_set_plugin("suspends", ",".join(suspends))
 
 # adds commands to the list
 def add_command(data, buffer, args):
@@ -75,19 +87,65 @@ def send_auto_commands(data, buffer):
         weechat.prnt("", f"Command '{command}' sent!")
     return weechat.WEECHAT_RC_OK
 
+def suspend_commands(commands, suspends, index):
+    if 0 <= index < len(commands):
+        suspends.append(commands.pop(index))
+        weechat.prnt("", f"Command '{suspends[-1]}' suspended!")
+        return weechat.WEECHAT_RC_OK
+
+def unsuspend_commands(commands, suspends, index):
+    if 0 <= index < len(suspends):
+        commands.append(suspends.pop(index))
+        weechat.prnt("", f"Command '{commands[-1]}' unsuspended!")
+        return weechat.WEECHAT_RC_OK
+
 
 # [ ---COMMANDS--- ]
 def commands_cb(data, buffer, args):
     if args.startswith("list"):
-        weechat.prnt("", "Current commands: \n")
+
+        # commands table
+        weechat.prnt("", "\nActive commands: \n")
         for i, command in enumerate(commands):
             weechat.prnt("", f"{i + 1}. {command}")
+
+        # suspends table
+        weechat.prnt("", "\nSuspended commands: \n")
+        for i, suspend in enumerate(suspends):
+            weechat.prnt("", f"{i + 1}. {suspend}")
+
         return weechat.WEECHAT_RC_OK
+
 # ---------------------------------------------------
+
     elif args.startswith("add"):
         add_command(data, "", args[len("add "):])
         return weechat.WEECHAT_RC_OK
+
 # ---------------------------------------------------
+    # Suspends
+    if args.startswith("suspend"):
+        try:
+            suspend_commands(commands, suspends, int(args.split()[1]) - 1)
+            save_commands()
+            return weechat.WEECHAT_RC_OK
+
+        except (ValueError, IndexError):
+            weechat.prnt("", "Use only numbers! '/autocommands suspend <number>'")
+            return weechat.WEECHAT_RC_OK
+
+    if args.startswith("unsuspend"):
+        try:
+            unsuspend_commands(commands, suspends, int(args.split()[1]) - 1)
+            save_commands()
+            return weechat.WEECHAT_RC_OK
+
+        except (ValueError, IndexError):
+            weechat.prnt("", "Use only numbers! '/autocommands unsuspend <number>'")
+            return weechat.WEECHAT_RC_OK
+
+# ---------------------------------------------------
+
     elif args.startswith("del"):
         try:
             arg_value = " ".join(args.split()[1:])
@@ -118,7 +176,9 @@ def commands_cb(data, buffer, args):
         except (ValueError, IndexError):
                 weechat.prnt("", "Invalid command number!")
                 return weechat.WEECHAT_RC_OK
+
 # ---------------------------------------------------
+
     elif args.startswith("time"):           # set timer for hook
         try:
             new_time = int(args.split()[1])
@@ -129,13 +189,18 @@ def commands_cb(data, buffer, args):
             weechat.prnt("", "Invalid time value! /autocommands time <miliseconds>")
 
         return weechat.WEECHAT_RC_OK
+
 # ---------------------------------------------------
+
     elif args.startswith("clear"):
         commands.clear()
+        suspends.clear()
         save_commands()
         weechat.prnt("", "Commands cleared!")
         return weechat.WEECHAT_RC_OK
+
 # ---------------------------------------------------
+
     else:
         weechat.prnt("", f"{help}")
         return weechat.WEECHAT_RC_OK
@@ -158,7 +223,7 @@ weechat.hook_command(
     "List auto commands",
     "",
     "",
-    "list || add  || del %(autocommands_cmds) || clear || time",
+    "list || add  || del %(autocommands_cmds) || clear || time || suspend || unsuspend",
     "commands_cb",
     "",
 )
